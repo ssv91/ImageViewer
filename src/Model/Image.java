@@ -3,7 +3,6 @@ package Model;
 public abstract class Image {
     
     public abstract BitMap getBitmap();
-    public abstract Dimension getDimension();
     public abstract Image getNext();
     public abstract Image getPrev();
     

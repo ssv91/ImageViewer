@@ -1,6 +1,7 @@
-package Model;
+package Persistence;
 
-import Persistence.ImageLoader;
+import Model.BitMap;
+import Model.Image;
 
 public class ProxyImage extends Image {
     
@@ -17,12 +18,6 @@ public class ProxyImage extends Image {
     public BitMap getBitmap() {
         checkLoaded();
         return realImage.getBitmap();
-    }
-    
-    @Override
-    public Dimension getDimension() {
-        checkLoaded();
-        return realImage.getDimension();
     }
     
     private void checkLoaded() {

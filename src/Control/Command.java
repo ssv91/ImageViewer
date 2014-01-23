@@ -1,4 +1,4 @@
-package Commands;
+package Control;
 
 import java.awt.event.ActionListener;
 

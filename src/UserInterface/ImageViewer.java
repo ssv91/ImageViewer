@@ -4,7 +4,7 @@ import Model.Image;
 
 public abstract class ImageViewer {
     
-    private Image image;
+    /*private Image image;
 
     public Image getImage() {
         return image;
@@ -15,5 +15,7 @@ public abstract class ImageViewer {
         refresh();
     }
     
-    public abstract void refresh();
+    public abstract void refresh();*/
+    public abstract Image getImage();
+    public abstract void setImage(Image image);
 }

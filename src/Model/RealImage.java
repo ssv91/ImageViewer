@@ -3,16 +3,11 @@ package Model;
 public class RealImage extends Image {
     
     private final BitMap bitmap;
-    private final Dimension dimension;
+    private Image prevImage;
+    private Image nextImage;
 
-    public RealImage(BitMap bitmap, Dimension dimension) {
+    public RealImage(BitMap bitmap) {
         this.bitmap = bitmap;
-        this.dimension = dimension;
-    }
-
-    @Override
-    public Dimension getDimension() {
-        return dimension;
     }
 
     @Override
@@ -22,19 +17,21 @@ public class RealImage extends Image {
 
     @Override
     public Image getNext() {
-        return null;
+        return nextImage;
     }
 
     @Override
     public Image getPrev() {
-        return null;
+        return prevImage;
     }
 
     @Override
     public void setNext(Image image) {
+        nextImage = image;
     }
 
     @Override
     public void setPrev(Image image) {
+        prevImage = image;
     }
 }

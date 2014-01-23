@@ -1,4 +1,4 @@
-package Commands;
+package Control;
 
 import UserInterface.ImageViewer;
 import java.awt.event.ActionEvent;

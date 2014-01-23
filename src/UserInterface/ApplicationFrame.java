@@ -1,4 +1,4 @@
-package Application;
+package UserInterface;
 
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
@@ -14,7 +14,7 @@ public class ApplicationFrame extends JFrame {
     private int index = 0;
 
     public ApplicationFrame(ActionListener[] listeners) throws HeadlessException {
-        super("Image Browser");
+        super("Image Viewer");
         this.listeners = listeners;
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(300, 300);

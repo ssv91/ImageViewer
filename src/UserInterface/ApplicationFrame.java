@@ -16,7 +16,7 @@ public class ApplicationFrame extends JFrame {
     }
 
     public ApplicationFrame(ActionListenerFactory factory) throws HeadlessException {
-        super("ImageBrowser: The best way to see your photos and pictures");
+        super("See your photos and pictures");
         this.factory = factory;
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(1024,768);

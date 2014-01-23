@@ -16,7 +16,6 @@ public class ImageLoader {
         this.fileName = fileName;
     }
     public Image load() throws IOException{
-            System.out.println(fileName);
             return new RealImage(loadBitmap());
     }
 

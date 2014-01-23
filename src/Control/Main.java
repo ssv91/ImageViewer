@@ -1,76 +1,63 @@
 package Control;
 
-
-
-
-import UserInterface.ApplicationFrame;
-import UserInterface.ConsoleImageViewer;
-import Persistence.ImageLoader;
-import UserInterface.ImageViewer;
-import Control.NextImageCommand;
-import Control.PrevImageCommand;
-import Persistence.ProxyImage;
-import Model.RealImage;
 import Model.Image;
-import Model.Dimension;
+import Persistence.ImageListLoader;
+import UserInterface.ApplicationFrame;
+import UserInterface.ImageViewer;
+import UserInterface.ImageViewerPanel;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
-
+    
+    private static final String pathName= "/Users/soraya/NetBeansProjects/ImageViewer/pictures";
+    private Map<String, Command> commandMap;
+    private ApplicationFrame frame;
+    
     public static void main(String[] args) {
+        System.out.println(pathName);
         new Main().execute();
     }
-
+    
     private void execute() {
-        Image[] images = linkImages(createImages()); 
-        ImageViewer viewer = createImageViewer(images[0]);
-        createApplicationFrame(createCommands(viewer));
+        List<Image> images = new ImageListLoader(pathName).load();
+        frame = createApplicationFrame();
+        frame.getImageViewer().setImage(images.get(0));
+        createCommands();
+        frame.setVisible(true);
     }
-
-    private Image[] createImages() {
-        Image[] images = new Image[5];
-        for (int i = 0; i < images.length; i++) {
-            images[i] = createImage(i);
-        }
-        return images;
-    }
-
-    private Image createImage(final int index) {
-        final int[] sizes = new int[] {200, 500, 400, 398, 100};
-        return new ProxyImage(new ImageLoader() {
-            @Override
-            public Image load() {
-                return new RealImage(new Dimension(sizes[index], sizes[index]));
-            }
-        });
-    }
-
-    private Image[] linkImages(Image[] images) {
-        for (int i = 0; i < images.length; i++) {
-            Image image = images[i];
-            Image next = images[(i + 1) % images.length];
-            Image prev = images[(i + images.length - 1) % images.length];
-            image.setNext(next);
-            image.setPrev(prev);
-        }
-        return images;
-    }
-
-    private ImageViewer createImageViewer(Image image) {
-        ImageViewer viewer = new ConsoleImageViewer();
+    
+    private ImageViewer createImageViewer(Image image){
+        ImageViewer viewer = new ImageViewerPanel();
         viewer.setImage(image);
         return viewer;
     }
-
-    private ApplicationFrame createApplicationFrame(ActionListener[] listeners) {
-        return new ApplicationFrame(listeners);
-    }
-
-    private ActionListener[] createCommands(ImageViewer viewer) {
-        return new ActionListener[] {
-            new PrevImageCommand(viewer),
-            new NextImageCommand(viewer)
-        };
-    }
     
+    private ApplicationFrame createApplicationFrame(){
+        return new ApplicationFrame(new ActionListenerFactory() {
+
+            @Override
+            public ActionListener createActionListener(final String action) {
+                return new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Command command = commandMap.get(action);
+                        if (command==null) {
+                            return;
+                        }
+                        command.execute();
+                    }
+                };
+            }
+        });
+    }
+    private void createCommands(){
+        commandMap = new HashMap<>();
+        commandMap.put("Prev", new PrevImageCommand(frame.getImageViewer()));
+        commandMap.put("Next", new NextImageCommand(frame.getImageViewer()));
+    }
 }

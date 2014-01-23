@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 
 public class SwingBitMap implements BitMap {
-    private BufferedImage bufferedImage;
+    private final BufferedImage bufferedImage;
  
     public SwingBitMap(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;

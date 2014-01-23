@@ -1,36 +1,56 @@
 package UserInterface;
 
-import java.awt.FlowLayout;
+import Control.ActionListenerFactory;
+import java.awt.BorderLayout;
 import java.awt.HeadlessException;
-import java.awt.PopupMenu;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class ApplicationFrame extends JFrame {
-    
-    private ActionListener[] listeners;
-    private int index = 0;
+    private ActionListenerFactory factory;
+    private ImageViewerPanel imageViewer;
 
-    public ApplicationFrame(ActionListener[] listeners) throws HeadlessException {
-        super("Image Viewer");
-        this.listeners = listeners;
+    public ImageViewerPanel getImageViewer() {
+        return imageViewer;
+    }
+
+    public ApplicationFrame(ActionListenerFactory factory) throws HeadlessException {
+        super("ImageBrowser: The best way to see your photos and pictures");
+        this.factory = factory;
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(300, 300);
-        this.setLayout(new FlowLayout());
+        this.setSize(1024,768);
         this.createComponents();
         this.setVisible(true);
     }
 
-    private void createComponents() {
-        this.add(createButton("Prev"));
-        this.add(createButton("Next"));
+   private void createComponents() {
+        this.add(createToolbarPanel(), BorderLayout.NORTH);
+        this.add(createImagePanel());
     }
 
-    private JButton createButton(String title) {
-        JButton button = new JButton(title);
-        button.addActionListener(listeners[index++]);
+    private JButton createPrevButt() {
+        JButton button = new JButton("←");
+        button.addActionListener(factory.createActionListener("Prev"));
         return button;
+    }
+
+    private JButton createNextButt() {
+        JButton button = new JButton("→");
+        button.addActionListener(factory.createActionListener("Next"));
+        return button;
+    }
+
+    private JPanel createImagePanel() {
+        ImageViewerPanel panel = new ImageViewerPanel();
+        this.imageViewer = panel;
+        return panel;
+    }
+
+    private JPanel createToolbarPanel() {
+        JPanel panel = new JPanel();
+        panel.add(createPrevButt());
+        panel.add(createNextButt());
+        return panel;
     }
 }
